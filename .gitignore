@@ -1,0 +1,37 @@
+
+# History files 
+.Rproj.user
+.Rapp.history
+.Rhistory
+
+Data/
+.DS_Store
+
+# latex intermedidate files
+*.aux
+*.dvi
+*.log
+*.gz
+*.blg
+*.bbl
+*.toc
+*.out
+*.backup
+*.gz
+
+# latex presentation
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+
+# data file
+*.data
+*.csv
+.RData
+*.RData
+
+

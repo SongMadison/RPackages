@@ -1,0 +1,61 @@
+---
+title: "Section 6 - ggplot2"
+author: "Jen Birstler (with minor revisions by John Gillett)"
+output: html_document
+---
+
+##Packages
+
+ggplot2 is a "package" for R. The functions for it are not already included in R and have to be installed. For the first time using ggplot2, install it using `install.packages("ggplot2")` then load it in using `require("ggplot2")`. After that, each time you start an R session and want to use ggplot2, call it into the session with `require("ggplot2")`. Those functions, `install.packages()` and `require()`, can be used with any package in R.
+
+```{r}
+if (!require("ggplot2")) {
+  install.packages("ggplot2")
+  stopifnot(require("ggplot2"))
+  }
+
+trees <- read.csv("ggplot2_trees.csv", row.names=1)
+```
+
+##qplot
+
+`qplot()` means "quick plot." Specify the dataset, the variables for each axis, and the "geometry" of a boxplot.
+
+```{r}
+qplot(data = trees, x = species, y = dbh, geom="boxplot")
+```
+
+##ggplot
+
+`ggplot()` initializes a ggplot object and gives us a bit more control than qplot (more details below). After the object is initialized, the geometry "layer" can be added to the plot. 
+
+```{r}
+ggplot(data = trees, aes(x = species, y = dbh)) + geom_boxplot()
+```
+
+##`aes()` and `geom_SOMETHING()`
+`aes()` describes the "aesthetics" of the visuzalization. It determines how the data is encoded on the graph. `geom_SOMETHING()` layers the geometry on the graph. Certain geometries require or ignore certain aesthetics.
+
+```{r}
+ggplot(data=trees, aes(x=dbh)) + geom_density()
+ggplot(data = anscombe, aes(x = x1, y=y1)) + geom_point() + geom_smooth() + geom_line()
+ggplot(data = anscombe, aes(x = x1, y=y1)) + geom_point() + geom_smooth(method="lm") + geom_line()
+ggplot(data = mtcars, aes(x=mpg, y=qsec, color=factor(cyl), shape=factor(gear))) + geom_point()
+```
+
+##`facet_wrap()` and `facet_grid()`
+`facet_wrap()` and `facet_grid()` create multiple graphs on the same plot. A formula is passed to create the facets. (In R's formula notation, `.` indicates all other columns in the dataframe)
+
+```{r}
+ggplot(data = mtcars, aes(x=mpg, y=qsec, color=factor(cyl))) + geom_point() + facet_grid(.~gear)
+ggplot(data = mtcars, aes(x=mpg, y=qsec, color=factor(cyl))) + geom_point() + facet_grid(carb~gear)
+ggplot(data = mtcars, aes(x=mpg, y=qsec, color=factor(cyl))) + geom_point() + facet_wrap(carb~gear)
+```
+
+##Axes labels, scales, and limits
+Axes titles can be added with `xlab()` and `ylab()`. Main titles can be added with `labs(title= "Title Text")`. Scale transformations can be done to (most) variables in `aes()` and the limits can be set. Limits can also be set for x without a transformation by using `scale_x_continuous()` or `scale_x_discrete()`, similarly for y and other aesthetics. 
+
+```{r}
+ggplot(data = trees, aes(x = species, y = dbh)) + geom_boxplot() + ylab("Diameter") + xlab("Species") + labs(title="Some trees are bigger than others")
+ggplot(data=trees, aes(x=dbh)) + geom_density() + scale_x_sqrt(limits=c(0, 50))
+```
