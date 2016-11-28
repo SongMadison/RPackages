@@ -24,4 +24,4 @@ fits <- foreach(i = species, .combine = rbind) %dopar% {
   return(c(i, fit$coefficients))
 }
 
-stopCluster(c1)
+stopCluster(cl)
