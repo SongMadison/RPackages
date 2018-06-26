@@ -5,3 +5,7 @@ $ ./configure --prefix=$HOME/R
 $ make && make install
 
 details see https://unix.stackexchange.com/questions/149451/install-r-in-my-own-directory
+
+
+
+Install Rkernel in jupyter notebook
